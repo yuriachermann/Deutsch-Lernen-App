@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import ImageViewer from './components/ImageViewer';
 import Button from './components/Button';
@@ -8,6 +9,10 @@ const PlaceholderImage = require('./assets/images/background-image.png');
 
 export default function App() {
 
+  const [showAppOptions, setShowAppOptions] = useState(false);
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -15,7 +20,8 @@ export default function App() {
     });
 
     if (!result.canceled) {
-      console.log(result);
+      setSelectedImage(result.assets[0].uri);
+      setShowAppOptions(true);
     } else {
       alert('You did not select any image.');
     }
@@ -24,12 +30,19 @@ export default function App() {
   return (
       <View style={styles.container}>
         <View style={styles.imageContainer}>
-          <ImageViewer placeholderImageSource={PlaceholderImage} />
+          <ImageViewer
+            placeholderImageSource={PlaceholderImage}
+            selectedImage={selectedImage}
+          />
         </View>
-        <View style={styles.footerContainer}>
-          <Button theme="primary" label="Choose a photo" onPress={pickImageAsync} />
-          <Button label="Use this photo" />
-        </View>
+        {showAppOptions ? (
+          <View />
+        ) : (
+          <View style={styles.footerContainer}>
+            <Button theme="primary" label="Choose a photo" onPress={pickImageAsync} />
+            <Button label="Use this photo" onPress={() => setShowAppOptions(true)}/>
+          </View>
+        )}
         <StatusBar style="auto" />
       </View>
   );
