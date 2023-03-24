@@ -17,12 +17,21 @@
       }
     },
     "production": {
+      "android": {
+        "serviceAccountKeyPath": "pc-api-8248500415604604798-487-920534798e6c.json",
+        "track": "internal"
+      },
       "ios": {
         "resourceClass": "m-medium"
       }
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "pc-api-8248500415604604798-487-920534798e6c.json",
+        "track": "alpha"
+      }
+    }
   }
 }
